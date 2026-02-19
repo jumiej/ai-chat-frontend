@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect, useRef } from "react";
 import "./App.css";
 
 function App() {
@@ -87,6 +87,13 @@ function App() {
     }
   };
 
+  const messagesEndRef = useRef(null);
+
+  // Auto-scroll when messages change
+  useEffect(() => {
+    messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
+  }, [messages]);
+
   return (
     <>
       <h1>Jumie AI Chat</h1>
@@ -101,6 +108,7 @@ function App() {
           ))}
         {loading && <div className="messageAssistant">AI is thinking...</div>}
       </div>
+      <div ref={messagesEndRef} />
       <div className="inputArea">
         <input
           value={inputValue}
